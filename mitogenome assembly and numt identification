@@ -1,6 +1,4 @@
 ####Pipeline to extract, parse and assemble mitochondrial genome##### ALWAYS SAME INDIVIDUAL , NO CROSS MAPPING
-##seed0=file with mitogenomes
-##hitpolicy to capture all hits
 #### modified scripts
 ##The objectives of this task are two-fold:
 # 1 - Obtain two mitochondrial genomes, one for each morph
