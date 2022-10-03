@@ -1,9 +1,4 @@
 ####Pipeline to extract, parse and assemble mitochondrial genome##### ALWAYS SAME INDIVIDUAL , NO CROSS MAPPING
-#### modified scripts
-##The objectives of this task are two-fold:
-# 1 - Obtain two mitochondrial genomes, one for each morph
-# 2 - Map reads to known mitochondrial genomes to infer the capture of numts based on evolutionary divergence principles
-# 3 - Validation step by cross-mapping raw reads and mitogenomes of our tawny owls only
 #blast pacbio reads against multiple mitogenomes
 for file in to_blast/*.fasta; do blasr /scratch/project_2004038/owl_data/m64048_210523_061850.subreads.bam $file -m 1 > $file.out;
 done
