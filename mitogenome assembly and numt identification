@@ -66,7 +66,9 @@ for file in ./*.sort.out; do awk '{print $1,$5,$6}' $file > $file.align.stats;
 done
 
 ###CROSS MAPPING STRATEGY BETWEEN RAW PACBIO READS AND CLEANED MITOGENOMES#####can be incorporated on the previous step after both circular genomes are available for grey and brown morphs
-##refine blast by blasting pacbio reads of one individual against the other - cross mapping - mito_blasr_comparison.sh
-module load gcc/9.1.0
-module load blast/2.12.0
-blasr owl_data/.subreads.bam blast_data/mitogenome_pacbio_V6.fasta -m 1 --hitPolicy all > blast_data/v5.blast.clean.v6.hitpolic
+##utilize blasr to fish for subreads that match the mitogenome
+blasr subreads_file mitogenome_file.gz -m 1 --hitPolicy all > output
+#utilize seqtk to extract sequences based on a file with coordinate information
+seqtk subseq {GENOME_FILE}.gz coordinates_file > output.fastq
+
+
