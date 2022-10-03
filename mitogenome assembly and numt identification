@@ -56,6 +56,22 @@ Talba
 Tlong"
 for sample in $mtgenomes; do blasr *.fasta ${sample}.fasta -m 1 | sort | awk '{print $1,$2,$5,$6}' >>all.blasr.out
 done
-###move to R to plot divergence statistics
-###make phylogenetic to estimate evolutionary distances
-###identify divergence peaks,with sliding window, if any
+
+#####capture reads, from raw pacbio data, 
+#blast pacbio reads against multiple mitogenomes and keeping frag lenghts between 100bp and 20000bp (approx. max mitogenome size) - 
+module load gcc/9.1.0
+module load blast/2.12.0
+for file in to_blast/*.fasta; do blasr /scratch/project_2004038/owl_data/m64048_210523_061850.subreads.bam $file -m 1 --hitPolicy all > $file.out;
+done
+##sort hits by size 
+for file in  ./*out;do awk '{a=$8-$7;print $0,a;}' $file | sort -n -r -k14,14 | awk '$14>100 && $14<20000' | sort -uk1,1 > $file.sort.out;
+done
+#retrieve data on alignement score and alignment % identity
+for file in ./*.sort.out; do awk '{print $1,$5,$6}' $file > $file.align.stats; 
+done
+
+###CROSS MAPPING STRATEGY BETWEEN RAW PACBIO READS AND CLEANED MITOGENOMES#####can be incorporated on the previous step after both circular genomes are available for grey and brown morphs
+##refine blast by blasting pacbio reads of one individual against the other - cross mapping - mito_blasr_comparison.sh
+module load gcc/9.1.0
+module load blast/2.12.0
+blasr owl_data/.subreads.bam blast_data/mitogenome_pacbio_V6.fasta -m 1 --hitPolicy all > blast_data/v5.blast.clean.v6.hitpolic
